@@ -28,8 +28,10 @@ fun DailyForcast() {
     var _wind = ""
     var _humdidity = ""
 
-    Row(
-        horizontalArrangement = Arrangement.SpaceAround,
+    Column(
+        //horizontalArrangement = Arrangement.SpaceAround,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(Color.White)
             .fillMaxWidth()
@@ -107,7 +109,6 @@ fun DailyForcast() {
                 )
             }
         }
-
     }
 }
 

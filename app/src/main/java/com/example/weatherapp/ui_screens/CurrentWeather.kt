@@ -20,17 +20,6 @@ import com.example.weatherapp.R
 @Composable
 fun CurrentWeather() {
     Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.LightGray)
-    ) {
-        Text(
-            text = "Halifax, Nova Scotia"
-        )
-    }
-    Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxSize()
