@@ -10,15 +10,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
+import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.R
 
 @Composable
-fun DailyForcast() {
+fun DailyForcast(mainViewModel: MainViewModel) {
+
+    val weather by mainViewModel.weather.collectAsState()
 
     var textDate = ""
     var _image = painterResource(id = R.drawable.sunny)
@@ -37,38 +43,47 @@ fun DailyForcast() {
             .fillMaxWidth()
     )
     {
-        for(i in 1..3)
-        {
-            if (i == 1)
-            {
-                textDate = "Today:\n Sep 26, 2025"
-                _image = painterResource(id = R.drawable.sunny)
-                _contentDescription = "Sunny Day"
-                _temp = "High: 21°C Low: 16°C"
-                _accum = "0mm Rain 100%"
-                _wind = "Wind: 5 kmh E"
-                _humdidity = "Humidity: 65%"
-            }
-            else if (i == 2)
-            {
-                textDate = "Tomorrow:\n Sep 27, 2025"
-                _image = painterResource(id = R.drawable.sunny_cloudy)
-                _contentDescription = "Partially Sunny"
-                _temp = "High: 18°C Low: 10°C"
-                _accum = "~0mm Rain 80%"
-                _wind = "Wind: 4 kmh NW"
-                _humdidity = "Humidity: 76%"
-            }
-            else
-            {
-                textDate = "Day After Tomorrow:\n Sep 28, 2025"
-                _image = painterResource(id = R.drawable.snowy)
-                _contentDescription = "A little Snowy"
-                _temp = "High: -72°C Low: -128°C"
-                _accum = "12303cm Snow 50%"
-                _wind = "Wind: 121 kmh W"
-                _humdidity = "Humidity: 10%"
-            }
+//        for(i in 1..3)
+//        {
+//            if (i == 1)
+//            {
+//                textDate = "Today:\n Sep 26, 2025"
+//                _image = painterResource(id = R.drawable.sunny)
+//                _contentDescription = "Sunny Day"
+//                _temp = "High: 21°C Low: 16°C"
+//                _accum = "0mm Rain 100%"
+//                _wind = "Wind: 5 kmh E"
+//                _humdidity = "Humidity: 65%"
+//            }
+//            else if (i == 2)
+//            {
+//                textDate = "Tomorrow:\n Sep 27, 2025"
+//                _image = painterResource(id = R.drawable.sunny_cloudy)
+//                _contentDescription = "Partially Sunny"
+//                _temp = "High: 18°C Low: 10°C"
+//                _accum = "~0mm Rain 80%"
+//                _wind = "Wind: 4 kmh NW"
+//                _humdidity = "Humidity: 76%"
+//            }
+//            else
+//            {
+//                textDate = "Day After Tomorrow:\n Sep 28, 2025"
+//                _image = painterResource(id = R.drawable.snowy)
+//                _contentDescription = "A little Snowy"
+//                _temp = "High: -72°C Low: -128°C"
+//                _accum = "12303cm Snow 50%"
+//                _wind = "Wind: 121 kmh W"
+//                _humdidity = "Humidity: 10%"
+//            }
+            for(item in weather?.forecast!!) {
+                textDate = item.date
+                _image = rememberAsyncImagePainter(item.image) //painterResource(id = R.drawable.snowy)
+                _contentDescription = item.condition// "A little Snowy"
+                _temp = "High: " + item.highTemp + " Low: " + item.lowTemp
+                _accum = item.precipitationAmount.toString() + " " + item.precipitationType + " " + item.precipitationProbability //needs cm/mm/m logic "12303cm Snow 50%"
+                _wind = "Wind: " + item.windSpeed + " kmh " + item.windDirection //"Wind: 121 kmh W"
+                _humdidity = "Humidity: " + item.humidity //"Humidity: 10%"
+
 
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -84,7 +99,7 @@ fun DailyForcast() {
                 )
 
                 Image(
-                    painter = _image,
+                    painter = rememberAsyncImagePainter(_image),
                     contentDescription = _contentDescription
                 )
 
@@ -108,6 +123,7 @@ fun DailyForcast() {
                     text = _humdidity
                 )
             }
+
         }
     }
 }

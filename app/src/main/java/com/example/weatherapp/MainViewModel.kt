@@ -2,6 +2,8 @@ package com.example.weatherapp
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.models.Current
+import com.example.weatherapp.models.Forecast
 import kotlinx.coroutines.delay
 import com.example.weatherapp.models.Weather
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,7 @@ class MainViewModel : ViewModel() {
     init {
         // Create and set the initial weather data for Halifax
         val initialWeather = Weather(
-            current = Weather.Current(
+            current = Current(
                 image = "ic_partly_cloudy",
                 condition = "A mix of sun and cloud",
                 temperature = 13,
@@ -28,7 +30,7 @@ class MainViewModel : ViewModel() {
                 windSpeed = "15 km/h"
             ),
             forecast = listOf(
-                Weather.Forecast(
+                Forecast(
                     date = "Oct 10",
                     image = "ic_sunny",
                     highTemp = 15,
@@ -41,7 +43,7 @@ class MainViewModel : ViewModel() {
                     windSpeed = 20,
                     humidity = 65
                 ),
-                Weather.Forecast(
+                Forecast(
                     date = "Oct 11",
                     image = "ic_showers",
                     highTemp = 12,
@@ -54,7 +56,7 @@ class MainViewModel : ViewModel() {
                     windSpeed = 25,
                     humidity = 80
                 ),
-                Weather.Forecast(
+                Forecast(
                     date = "Oct 12",
                     image = "ic_cloudy",
                     highTemp = 14,
@@ -78,7 +80,7 @@ class MainViewModel : ViewModel() {
 
             // Create new weather data for Toronto
             val updatedWeather = Weather(
-                current = Weather.Current(
+                current = Current(
                     image = "ic_sunny",
                     condition = "Clear and sunny",
                     temperature = 18,
@@ -89,7 +91,7 @@ class MainViewModel : ViewModel() {
                     windSpeed = "10 km/h"
                 ),
                 forecast = listOf(
-                    Weather.Forecast(
+                    Forecast(
                         date = "Oct 10",
                         image = "ic_sunny",
                         highTemp = 20,
@@ -102,7 +104,7 @@ class MainViewModel : ViewModel() {
                         windSpeed = 15,
                         humidity = 55
                     ),
-                    Weather.Forecast(
+                    Forecast(
                         date = "Oct 11",
                         image = "ic_sunny",
                         highTemp = 22,
@@ -115,7 +117,7 @@ class MainViewModel : ViewModel() {
                         windSpeed = 12,
                         humidity = 60
                     ),
-                    Weather.Forecast(
+                    Forecast(
                         date = "Oct 12",
                         image = "ic_rainy",
                         highTemp = 19,
