@@ -53,14 +53,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             WeatherAppTheme {
                 //WeatherScreen(viewModel = mainViewModel)
-                //DisplayUI(mainViewModel)
+                DisplayUI(mainViewModel)
                 //CurrentWeather(mainViewModel)
 //                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //                    Column(
 //                        modifier = Modifier.padding(innerPadding)
 //                    ) {
 ////                        CurrentWeather(viewModel = mainViewModel)
-                        DailyForecast(mainViewModel)
+                        //DailyForecast(mainViewModel)
 //                        DisplayUI(mainViewModel)
 //                    }
 
