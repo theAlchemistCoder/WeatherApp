@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,39 +33,46 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.weatherapp.models.Weather
 import com.example.weatherapp.ui.theme.WeatherAppTheme
 import com.example.weatherapp.ui_screens.CurrentWeather
-import com.example.weatherapp.ui_screens.DailyForcast
+import com.example.weatherapp.ui_screens.DailyForecast
+import com.example.weatherapp.ui_screens.DailyForecast
 
 class MainActivity : ComponentActivity() {
+
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             WeatherAppTheme {
                 //WeatherScreen(viewModel = mainViewModel)
-                DisplayUI()
+                //DisplayUI(mainViewModel)
+                //CurrentWeather(mainViewModel)
 //                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 //                    Column(
 //                        modifier = Modifier.padding(innerPadding)
 //                    ) {
-////                        CurrentWeather()
-////                        DailyForcast()
-//                        DisplayUI()
+////                        CurrentWeather(viewModel = mainViewModel)
+                        DailyForecast(mainViewModel)
+//                        DisplayUI(mainViewModel)
 //                    }
-//
-//                }
+
+                }
             }
         }
     }
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DisplayUI() {
+fun DisplayUI(mvm: MainViewModel) {
     val navController = rememberNavController()
 
     // Variable to store the selected value in Nav Bar
@@ -136,12 +144,12 @@ fun DisplayUI() {
         {
             composable(route = "current")
             {
-                CurrentWeather()
+                CurrentWeather(mvm)
             }
 
             composable(route = "daily")
             {
-                DailyForcast()
+                DailyForecast(mvm)
             }
         }
     }

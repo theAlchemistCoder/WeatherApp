@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
         // Create and set the initial weather data for Halifax
         val initialWeather = Weather(
             current = Current(
-                image = "ic_partly_cloudy",
+                image = R.drawable.sunny,
                 condition = "A mix of sun and cloud",
                 temperature = 13,
                 precipitationType = "None",
@@ -32,7 +32,7 @@ class MainViewModel : ViewModel() {
             forecast = listOf(
                 Forecast(
                     date = "Oct 10",
-                    image = "ic_sunny",
+                    image = R.drawable.sunny,
                     highTemp = 15,
                     lowTemp = 7,
                     condition = "Mainly Sunny",
@@ -45,7 +45,7 @@ class MainViewModel : ViewModel() {
                 ),
                 Forecast(
                     date = "Oct 11",
-                    image = "ic_showers",
+                    image = R.drawable.sunny,
                     highTemp = 12,
                     lowTemp = 6,
                     condition = "Chance of showers",
@@ -58,7 +58,7 @@ class MainViewModel : ViewModel() {
                 ),
                 Forecast(
                     date = "Oct 12",
-                    image = "ic_cloudy",
+                    image = R.drawable.sunny,
                     highTemp = 14,
                     lowTemp = 8,
                     condition = "Cloudy periods",
@@ -73,68 +73,5 @@ class MainViewModel : ViewModel() {
         )
 
         _weather.value = initialWeather
-
-        // Launch a coroutine to simulate a data update after 10 seconds
-        viewModelScope.launch {
-            delay(10000)
-
-            // Create new weather data for Toronto
-            val updatedWeather = Weather(
-                current = Current(
-                    image = "ic_sunny",
-                    condition = "Clear and sunny",
-                    temperature = 18,
-                    precipitationType = "None",
-                    precipitationAmount = 0,
-                    location = "Toronto, ON",
-                    windDirection = "W",
-                    windSpeed = "10 km/h"
-                ),
-                forecast = listOf(
-                    Forecast(
-                        date = "Oct 10",
-                        image = "ic_sunny",
-                        highTemp = 20,
-                        lowTemp = 11,
-                        condition = "Sunny",
-                        precipitationType = "None",
-                        precipitationAmount = 0,
-                        precipitationProbability = 5,
-                        windDirection = "SW",
-                        windSpeed = 15,
-                        humidity = 55
-                    ),
-                    Forecast(
-                        date = "Oct 11",
-                        image = "ic_sunny",
-                        highTemp = 22,
-                        lowTemp = 13,
-                        condition = "Sunny",
-                        precipitationType = "None",
-                        precipitationAmount = 0,
-                        precipitationProbability = 0,
-                        windDirection = "S",
-                        windSpeed = 12,
-                        humidity = 60
-                    ),
-                    Forecast(
-                        date = "Oct 12",
-                        image = "ic_rainy",
-                        highTemp = 19,
-                        lowTemp = 12,
-                        condition = "Rain developing",
-                        precipitationType = "Rain",
-                        precipitationAmount = 10,
-                        precipitationProbability = 90,
-                        windDirection = "E",
-                        windSpeed = 22,
-                        humidity = 85
-                    )
-                )
-            )
-
-            // Update the StateFlow, which will notify the UI of the change
-            _weather.value = updatedWeather
-        }
     }
 }

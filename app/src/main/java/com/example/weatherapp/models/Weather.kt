@@ -3,7 +3,7 @@ package com.example.weatherapp.models
 //class Weather(current: Current, forecast: Any) {
 
     data class Current(
-        val image: String,
+        val image: Int,
         val condition: String,
         val temperature: Int,
         val precipitationType: String,
@@ -15,7 +15,7 @@ package com.example.weatherapp.models
 
     data class Forecast(
         val date: String,
-        val image: String,
+        val image: Int,
         val highTemp: Int,
         val lowTemp: Int,
         val condition: String,
