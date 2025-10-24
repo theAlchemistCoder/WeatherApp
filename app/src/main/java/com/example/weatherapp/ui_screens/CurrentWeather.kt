@@ -59,12 +59,12 @@ fun CurrentWeather(mainViewModel: MainViewModel) { //  rid of main view model to
             )
 
             Text( // Current Precipitation
-                text = current.precipitationAmount.toString() + "mm/cm " + current.precipitationType,
+                text = current.precipitationAmount.toString() + "mm/cm " + current.precipitationAmount,
                 style = MaterialTheme.typography.titleSmall
             )
 
             Text( // Current Wind
-                text = current.windSpeed + " " + current.windDirection,
+                text = current.windSpeed.toString() + " " + current.windDirection,
                 style = MaterialTheme.typography.titleSmall
             )
 

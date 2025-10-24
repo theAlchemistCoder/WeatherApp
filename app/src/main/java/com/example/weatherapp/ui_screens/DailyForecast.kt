@@ -61,11 +61,11 @@ fun DailyForecast(mainViewModel: MainViewModel) {
                 )
 
                 Text(
-                    text = forecast.precipitationAmount.toString() + "mm/cm " + forecast.precipitationType + " " + forecast.precipitationProbability + "% Chance"
+                    text = forecast.precipitationAmount.toString() + "mm/cm " + forecast.precipitationAmount + " " + forecast.precipitationProbability + "% Chance"
                 )
 
                 Text(
-                    text = "Wind: " + forecast.windSpeed + " kmh " + forecast.windDirection
+                    text = "Wind: " + forecast.windSpeed + " kmh " //+ forecast.windDirection
                 )
 
                 Text(
