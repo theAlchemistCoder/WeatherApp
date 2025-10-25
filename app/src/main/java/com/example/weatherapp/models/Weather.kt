@@ -1,6 +1,5 @@
 package com.example.weatherapp.models
 
-import com.example.weatherapp.R
 import com.google.gson.annotations.SerializedName
 
 // I have commented out your original data classes and created new ones that are compatible with the API.
@@ -45,9 +44,9 @@ data class Images(
 data class Weather(
     val location: Location,
     val current: Current,
-    @SerializedName("forecast") private val forecastWrapper: ForecastWrapper
+    @SerializedName("forecast") val forecastData: ForecastData?
 ) {
-    val forecast: List<Forecast> get() = forecastWrapper.forecastday
+    val forecast: List<ForecastDay> get() = forecastData?.forecastday ?: emptyList()
 }
 
 data class Location(
@@ -64,19 +63,20 @@ data class Current(
     @SerializedName("wind_dir") val windDirection: String,
     @SerializedName("wind_kph") val windSpeed: Double
 ) {
-    val image: Int get() = R.drawable.sunny
+    val image: String get() = "https:${conditionData.icon}"
     val condition: String get() = conditionData.text
 }
 
-data class ForecastWrapper(
-    val forecastday: List<Forecast>
+// This class wraps the list of forecast days from the API
+data class ForecastData(
+    @SerializedName("forecastday") val forecastday: List<ForecastDay>
 )
 
-data class Forecast(
+data class ForecastDay(
     val date: String,
     @SerializedName("day") private val dayData: Day
 ) {
-    val image: Int get() = R.drawable.sunny
+    val image: String get() = "https:${dayData.conditionData.icon}"
     val highTemp: Double get() = dayData.maxtempC
     val lowTemp: Double get() = dayData.mintempC
     val condition: String get() = dayData.conditionData.text
