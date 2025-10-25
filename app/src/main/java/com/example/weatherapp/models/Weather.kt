@@ -44,7 +44,8 @@ data class Images(
 data class Weather(
     val location: Location,
     val current: Current,
-    @SerializedName("forecast") val forecastData: ForecastData?
+    @SerializedName("forecast") val forecastData: ForecastData?,
+    val alerts: Alerts?
 ) {
     val forecast: List<ForecastDay> get() = forecastData?.forecastday ?: emptyList()
 }
@@ -52,7 +53,7 @@ data class Weather(
 //data class Location(
 //    val name: String,
 //    val region: String,
-//    val country: String,val localtime: String
+//    val localtime: String
 //) {
 //    val locationString: String get() = "$name, $region"
 //}
@@ -62,7 +63,8 @@ data class Current(
     @SerializedName("temp_c") val temperature: Double,
     @SerializedName("precip_mm") val precipitationAmount: Double,
     @SerializedName("wind_dir") val windDirection: String,
-    @SerializedName("wind_kph") val windSpeed: Double
+    @SerializedName("wind_kph") val windSpeed: Double,
+    @SerializedName("air_quality") val airQuality: AirQuality?
 ) {
     val image: String get() = "https:${conditionData.icon}"
     val condition: String get() = conditionData.text
@@ -100,4 +102,36 @@ data class Day(
 data class Condition(
     val text: String,
     val icon: String
+)
+
+// --- Air Quality Data ---
+data class AirQuality(
+    val co: Double,
+    val no2: Double,
+    val o3: Double,
+    val so2: Double,
+    @SerializedName("pm2_5") val pm25: Double,
+    val pm10: Double,
+    @SerializedName("us-epa-index") val usEpaIndex: Int
+)
+
+// --- Weather Alerts Data ---
+data class Alerts(
+    val alert: List<Alert>
+)
+
+data class Alert(
+    val headline: String,
+    val msgtype: String,
+    val severity: String,
+    val urgency: String,
+    val areas: String,
+    val category: String,
+    val certainty: String,
+    val event: String,
+    val note: String,
+    val effective: String,
+    val expires: String,
+    @SerializedName("desc") val description: String,
+    val instruction: String
 )

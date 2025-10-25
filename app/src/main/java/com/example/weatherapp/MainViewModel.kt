@@ -18,15 +18,7 @@ class MainViewModel : ViewModel() {
 
     private val _weather = MutableStateFlow<Weather?>(null)
     val weather = _weather.asStateFlow()
-
-    /*
-    // This enum is no longer needed as we fetch both data types at once.
-    enum class WeatherType(val value: Int) {
-        CURRENT(0),
-        FORECAST(1)
-    }
-    */
-
+    
     private val retrofit by lazy {
         Retrofit.Builder()
             .baseUrl("https://api.weatherapi.com/v1/")
@@ -41,37 +33,20 @@ class MainViewModel : ViewModel() {
     init {
         fetchWeatherData()
     }
-
-    /*
-    // This function is replaced by the new fetchWeatherData() that gets both current and forecast data.
-    fun fetchWeatherData(fetchType: WeatherType = WeatherType.CURRENT) {
-        viewModelScope.launch {
-            val apiKey = "url"
-            val location = "Halifax"
-            val days = 14
-            if (fetchType == WeatherType.CURRENT)
-            {
-                _weather.value = WeatherService.api.getCurrent(apiKey, location)
-            }
-            else
-            {
-                _weather.value = WeatherService.api.getForecast(apiKey, location, days)
-            }
-        }
-    }
-    */
-
+    
     private fun fetchWeatherData() {
         viewModelScope.launch {
             try {
                 // IMPORTANT: Replace "YOUR_API_KEY" with your actual WeatherAPI.com key
                 val apiKey = "3e9fa8aefa2e41f39f8194225252210"
-                val location = "Halifax"
+                val location = "Honolulu"
                 val days = 14
+                val aqi = "yes"
+                val alerts = "yes"
 
                 // Fetch both current and forecast data in parallel
-                val currentDataJob = async { api.getCurrent(apiKey, location) }
-                val forecastDataJob = async { api.getForecast(apiKey, location, days) }
+                val currentDataJob = async { api.getCurrent(apiKey, location, aqi, alerts) }
+                val forecastDataJob = async { api.getForecast(apiKey, location, days, aqi, alerts) }
 
                 // Wait for both requests to complete
                 val currentResponse = currentDataJob.await()
@@ -81,7 +56,8 @@ class MainViewModel : ViewModel() {
                 val combinedWeather = Weather(
                     location = currentResponse.location,
                     current = currentResponse.current,
-                    forecastData = forecastResponse.forecastData
+                    forecastData = forecastResponse.forecastData,
+                    alerts = forecastResponse.alerts
                 )
 
                 _weather.value = combinedWeather
