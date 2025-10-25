@@ -18,8 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.MainViewModel
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @Composable
@@ -37,11 +35,11 @@ fun CurrentWeather(mainViewModel: MainViewModel) {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Parse and format the date
-            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm", Locale.ENGLISH)
-            val outputFormatter = DateTimeFormatter.ofPattern("EEEE, MMMM d", Locale.ENGLISH)
-            val dateTime = LocalDateTime.parse(location.localtime, inputFormatter)
-            val formattedDate = dateTime.format(outputFormatter)
+            // Parse and format the date using SimpleDateFormat for API 24 compatibility
+            val inputFormatter = java.text.SimpleDateFormat("yyyy-MM-dd H:mm", Locale.ENGLISH)
+            val date = inputFormatter.parse(location.localtime)!!
+            val outputFormatter = java.text.SimpleDateFormat("EEEE, MMMM d", Locale.ENGLISH)
+            val formattedDate = outputFormatter.format(date)
 
             Text(
                 text = formattedDate,

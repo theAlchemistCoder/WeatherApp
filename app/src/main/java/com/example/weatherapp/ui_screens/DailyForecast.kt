@@ -33,9 +33,6 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.weatherapp.MainViewModel
 import com.example.weatherapp.models.ForecastDay
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
@@ -63,15 +60,20 @@ private fun ForecastRow(forecastDay: ForecastDay, index: Int) {
     var isExpanded by remember { mutableStateOf(false) }
     val rotationAngle by animateFloatAsState(targetValue = if (isExpanded) 180f else 0f)
 
-    val date = LocalDate.parse(forecastDay.date, DateTimeFormatter.ISO_LOCAL_DATE)
+    // Alternative code for API 24 and below
+    val inputFormatter = java.text.SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+    val date = inputFormatter.parse(forecastDay.date)!! // Added !! to handle potential null from parse()
 
     val dayDisplayName = when (index) {
         0 -> "Today"
         1 -> "Tomorrow"
-        else -> date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        else -> {
+            val dayOfWeekFormatter = java.text.SimpleDateFormat("EEEE", Locale.getDefault())
+            dayOfWeekFormatter.format(date)
+        }
     }
 
-    val formattedDate = date.format(DateTimeFormatter.ofPattern("MMMM d", Locale.ENGLISH))
+    val formattedDate = java.text.SimpleDateFormat("MMMM d", Locale.ENGLISH).format(date)
 
     Column(
         modifier = Modifier
