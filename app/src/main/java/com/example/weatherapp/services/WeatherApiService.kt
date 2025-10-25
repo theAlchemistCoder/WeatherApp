@@ -10,11 +10,15 @@ interface WeatherApiService {
         @Query("key") apiKey: String,
         @Query("q") location: String,
         @Query("days") days: Int
+//        @Query("aqi") aqi: String,
+//        @Query("alerts") alerts: String
     ): Weather
 
     @GET("current.json")
     suspend fun getCurrent(
         @Query("key") apiKey: String,
-        @Query("q") location: String
+        @Query("q") location: String,
+//        @Query("aqi") aqi: String,
+//        @Query("alerts") alerts: String
     ): Weather
 }

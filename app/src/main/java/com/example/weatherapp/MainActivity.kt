@@ -24,6 +24,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +47,7 @@ import com.example.weatherapp.ui_screens.DailyForecast
 class MainActivity : ComponentActivity() {
 
     private val mainViewModel: MainViewModel by viewModels()
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -63,6 +64,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DisplayUI(mvm: MainViewModel) {
     val navController = rememberNavController()
+    val weather by mvm.weather.collectAsState()
+
+    // Get the location name from the weather data, or show "Loading..."
+    val locationName = weather?.location?.let { "${it.name}, ${it.region}" } ?: "Loading..."
 
     // Variable to store the selected value in Nav Bar
     var selectedItem by remember { mutableIntStateOf(0) }
@@ -75,7 +80,7 @@ fun DisplayUI(mvm: MainViewModel) {
                     titleContentColor = MaterialTheme.colorScheme.primary
                 ),
                 title = {
-                    Text("Halifax, Nova Scotia")
+                    Text(locationName)
                 },
 
 

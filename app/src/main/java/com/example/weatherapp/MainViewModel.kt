@@ -4,11 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.models.Weather
+import com.example.weatherapp.services.WeatherApiService
 import com.example.weatherapp.services.WeatherService
+//import com.example.weatherapp.services.WeatherService.BASE_URL
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainViewModel : ViewModel() {
 
@@ -22,6 +26,17 @@ class MainViewModel : ViewModel() {
         FORECAST(1)
     }
     */
+
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.weatherapi.com/v1/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
+
+    val api: WeatherApiService by lazy {
+        retrofit.create(WeatherApiService::class.java)
+    }
 
     init {
         fetchWeatherData()
@@ -55,8 +70,8 @@ class MainViewModel : ViewModel() {
                 val days = 14
 
                 // Fetch both current and forecast data in parallel
-                val currentDataJob = async { WeatherService.api.getCurrent(apiKey, location) }
-                val forecastDataJob = async { WeatherService.api.getForecast(apiKey, location, days) }
+                val currentDataJob = async { api.getCurrent(apiKey, location) }
+                val forecastDataJob = async { api.getForecast(apiKey, location, days) }
 
                 // Wait for both requests to complete
                 val currentResponse = currentDataJob.await()
