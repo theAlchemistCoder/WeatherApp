@@ -31,15 +31,19 @@ class MainViewModel : ViewModel() {
     }
 
     init {
-        fetchWeatherData()
+        // Fetch weather for a default location initially
+        fetchWeatherData("Halifax")
+    }
+
+    fun fetchWeatherDataForLocation(coordinates: String) {
+        fetchWeatherData(coordinates)
     }
     
-    private fun fetchWeatherData() {
+    private fun fetchWeatherData(location: String) {
         viewModelScope.launch {
             try {
                 // IMPORTANT: Replace "YOUR_API_KEY" with your actual WeatherAPI.com key
                 val apiKey = "3e9fa8aefa2e41f39f8194225252210"
-                val location = "Honolulu"
                 val days = 14
                 val aqi = "yes"
                 val alerts = "yes"
